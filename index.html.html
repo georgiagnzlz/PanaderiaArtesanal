@@ -1,0 +1,733 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Hex, panadería artesanal de masa madre.">
+  <title>Hex | Panadería artesanal de masa madre</title>
+
+  <style>
+    :root {
+      --beige: #f5ebdc;
+      --marfil: #fff8ee;
+      --arena: #eadbc8;
+      --borde: #cfb99e;
+      --cafe: #4a3025;
+      --tinta: #3b291f;
+      --arcilla: #8c4933;
+      --serif: Georgia, "Times New Roman", serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--beige);
+      color: var(--tinta);
+      font: 1rem/1.55 system-ui, sans-serif;
+    }
+
+    img { display: block; width: 100%; }
+    figure { margin: 0; }
+    a { color: inherit; text-underline-offset: .2em; }
+    button, input { font: inherit; }
+    address { font-style: normal; }
+    [hidden] { display: none !important; }
+    :focus-visible { outline: 3px solid var(--arcilla); outline-offset: 4px; }
+
+    h1, h2, h3 {
+      margin: 0 0 .6rem;
+      font: 400 1.5rem/1.1 var(--serif);
+    }
+
+    h1 { font-size: clamp(1.65rem, 3.4vw, 2.65rem); }
+    h2 { font-size: clamp(1.5rem, 3.2vw, 2.45rem); }
+    h3 { font-size: clamp(1.3rem, 2.5vw, 1.85rem); }
+    p { margin: 0 0 1rem; }
+
+    .envoltura { width: min(1160px, calc(100% - 2rem)); margin-inline: auto; }
+    .seccion { padding-block: clamp(2.8rem, 6vw, 5rem); }
+
+    .cabecera {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      min-height: 76px;
+    }
+
+    .marca {
+      display: flex;
+      align-items: center;
+      gap: .65rem;
+      font: 1.65rem var(--serif);
+      text-decoration: none;
+    }
+
+    .marca img { width: 46px; height: 46px; object-fit: contain; }
+    .menu { position: relative; z-index: 2; }
+
+    .menu summary {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      min-height: 44px;
+      padding: .5rem .85rem;
+      border: 1px solid var(--borde);
+      list-style: none;
+      cursor: pointer;
+    }
+
+    .menu summary::-webkit-details-marker { display: none; }
+    .menu nav {
+      position: absolute;
+      top: calc(100% + .5rem);
+      right: 0;
+      display: grid;
+      width: min(240px, calc(100vw - 2rem));
+      padding: .35rem;
+      border: 1px solid var(--borde);
+      background: var(--beige);
+      box-shadow: 0 .45rem 1.1rem #33201820;
+    }
+
+    .menu nav a { padding: .65rem .75rem; text-decoration: none; }
+    .menu nav a + a { border-top: 1px solid var(--borde); }
+    .menu nav a:hover, .menu nav a:focus-visible { background: var(--arena); }
+
+    .banner {
+      position: relative;
+      isolation: isolate;
+      display: grid;
+      align-items: center;
+      min-height: 200px;
+      overflow: hidden;
+      background: var(--cafe);
+      color: var(--marfil);
+    }
+
+    .banner img {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .mensaje {
+      padding-block: 1.25rem;
+      text-shadow: 0 1px 4px #211209, 0 2px 9px #211209;
+    }
+
+    .mensaje p { margin-bottom: .4rem; }
+    .mensaje p:last-child { margin-bottom: 0; }
+
+    .franja-acciones {
+      margin-top: clamp(1.25rem, 3vw, 2rem);
+      padding-block: .75rem;
+      border-block: 1px solid var(--borde);
+      background: var(--marfil);
+    }
+
+    .acciones { display: flex; flex-wrap: wrap; gap: .6rem; }
+
+    .boton {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      padding: .5rem .85rem;
+      border: 1px solid transparent;
+      background: var(--cafe);
+      color: var(--marfil);
+      font-weight: 650;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .boton:hover { background: var(--arcilla); }
+    .boton:disabled { opacity: .55; cursor: default; }
+    .boton-secundario { border-color: var(--borde); background: var(--marfil); color: var(--cafe); }
+    .boton-secundario:hover { background: var(--arena); }
+
+    .editorial {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: clamp(1rem, 4vw, 3rem);
+    }
+
+    .editorial-texto { flex: 1 1 18rem; min-width: 0; }
+    .editorial-texto p { max-width: 56ch; margin-bottom: 0; }
+    .editorial-foto { flex: 1 1 18rem; min-width: 0; max-width: 33rem; }
+    .editorial-foto img, .mapa img { border: 1px solid var(--borde); }
+    #nuestros-ingredientes { border-bottom: 1px solid var(--borde); }
+
+    .galeria { margin-top: 1.5rem; }
+    .galeria + .galeria { padding-top: 1.5rem; border-top: 1px solid var(--borde); }
+    .pista {
+      --espacio: 1rem;
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: calc((100% - 2 * var(--espacio)) / 3);
+      gap: var(--espacio);
+      overflow-x: auto;
+      overscroll-behavior-inline: contain;
+      scroll-snap-type: x mandatory;
+      margin: .75rem 0;
+      padding: 0 0 .5rem;
+      list-style: none;
+    }
+
+    .pista li {
+      min-width: 0;
+      border: 1px solid var(--borde);
+      background: var(--marfil);
+      scroll-snap-align: start;
+    }
+
+    .foto-producto {
+      display: block;
+      width: 100%;
+      padding: 0;
+      border: 0;
+      background: var(--arena);
+      cursor: zoom-in;
+    }
+
+    .foto-producto:focus-visible { outline-offset: -4px; }
+    .foto-producto img { aspect-ratio: 3 / 2; object-fit: cover; }
+    .pista figcaption {
+      padding: .7rem .85rem;
+      font: 1.2rem/1.25 var(--serif);
+      overflow-wrap: anywhere;
+    }
+
+    .controles { display: flex; justify-content: flex-end; gap: .5rem; }
+    .controles button {
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--borde);
+      border-radius: 50%;
+      background: var(--marfil);
+      color: var(--cafe);
+      cursor: pointer;
+    }
+
+    .controles button[aria-disabled="true"] { opacity: .45; cursor: default; }
+
+    .visita-datos, .formulario {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem 1.5rem;
+    }
+
+    .visita-datos { margin-top: 1rem; }
+    .visita-datos p { margin-bottom: .35rem; }
+    .visita-datos ul { margin: 0; padding: 0; list-style: none; }
+    .mapa { max-width: 42rem; margin-top: 1rem; }
+    .mapa figcaption { margin-top: .35rem; }
+
+    .contactos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+      gap: 1rem;
+      margin-block: 1rem 0;
+    }
+
+    .contactos > div { padding-top: .65rem; border-top: 1px solid var(--borde); }
+    .contactos dt, .campo label { font-weight: 650; }
+    .contactos dd { margin: .25rem 0 0; overflow-wrap: anywhere; }
+
+    .pedido {
+      max-width: 46rem;
+      margin-top: 1.5rem;
+      padding: clamp(1rem, 3vw, 1.75rem);
+      border: 1px solid var(--borde);
+      background: var(--marfil);
+    }
+
+    .pedido-cabecera {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: .5rem 1rem;
+      margin-bottom: .6rem;
+    }
+
+    .campo { display: grid; gap: .25rem; min-width: 0; }
+    .fila-completa { grid-column: 1 / -1; }
+    .campo input {
+      width: 100%;
+      min-width: 0;
+      min-height: 44px;
+      padding: .5rem .6rem;
+      border: 1px solid var(--borde);
+      background: var(--beige);
+      color: var(--tinta);
+    }
+
+    .aviso { margin: 0; color: var(--arcilla); }
+    .aviso:empty { display: none; }
+    .pasos-pedido { padding-top: .75rem; border-top: 1px solid var(--borde); }
+    .pasos-pedido p { margin-bottom: .65rem; }
+    .pasos-pedido .acciones { align-items: center; }
+
+    .pie { padding-block: 2.5rem; background: var(--cafe); color: var(--marfil); }
+    .pie p { max-width: 65ch; margin-bottom: 0; }
+    .pie a:focus-visible { outline-color: var(--arena); }
+
+    .detalle {
+      width: min(720px, calc(100% - 2rem));
+      max-height: calc(100% - 2rem);
+      padding: clamp(1rem, 4vw, 2rem);
+      border: 1px solid var(--borde);
+      background: var(--marfil);
+      color: var(--tinta);
+    }
+
+    .detalle::backdrop { background: #251710cc; }
+    .detalle form { display: flex; justify-content: flex-end; }
+    .detalle img { max-height: 52vh; margin-block: .75rem 1rem; object-fit: contain; }
+
+    @media (max-width: 850px) {
+      .pista { grid-auto-columns: calc((100% - var(--espacio)) / 2); }
+    }
+
+    @media (max-width: 560px) {
+      .cabecera { min-height: 66px; }
+      .banner { min-height: 150px; }
+      .pista { grid-auto-columns: 100%; }
+      .visita-datos, .formulario { grid-template-columns: minmax(0, 1fr); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
+      #pasos-pedido .acciones {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: .85rem;
+}
+
+#paypal-container-JAYE8M4H4WPMN {
+  width: 100%;
+  max-width: 420px;
+}
+  </style>
+    <script 
+  src="https://www.paypal.com/sdk/js?client-id=BAAVtC-HM1UvNjyQnTGH1wWBP0Dn2RLQxgAsVOEkCwYOKDq_F5WDRKvECrDzcEombnrAfmtlGPw7zFfyQ0&components=hosted-buttons&disable-funding=venmo&currency=MXN">
+</script>
+</head>
+
+<body id="inicio">
+  <header class="cabecera envoltura">
+    <a class="marca" href="#inicio" aria-label="Hex, inicio">
+      <img src="imagenes/logo.png" alt="">
+      <span>Hex</span>
+    </a>
+
+    <details class="menu" id="menu">
+      <summary>Menú <span aria-hidden="true">▾</span></summary>
+      <nav aria-label="Menú principal">
+        <a href="#sobre-nosotros">Sobre nosotros</a>
+        <a href="#nuestros-ingredientes">Nuestros ingredientes</a>
+        <a href="#productos">Productos</a>
+        <a href="#visitanos">Visítanos</a>
+        <a href="#contacto">Contacto</a>
+        <a href="aviso-privacidad.html" target="_blank" rel="noopener"
+           aria-label="Aviso de privacidad (abre en una pestaña nueva)">Aviso de privacidad</a>
+      </nav>
+    </details>
+  </header>
+
+  <main>
+    <section class="banner" aria-labelledby="titulo">
+      <img src="imagenes/banner.png" alt="" fetchpriority="high"> 
+      <div class="mensaje envoltura">
+        <p>Panadería artesanal de masa madre</p>
+        <h1 id="titulo">Pan hecho con tiempo</h1>
+        <p>Hogazas de fermentación lenta, con corteza dorada y miga suave.</p>
+      </div>
+    </section>
+
+    <div class="franja-acciones">
+      <div class="acciones envoltura">
+        <a class="boton boton-secundario" href="#productos">Ver productos</a>
+        <button class="boton" id="abrir-pedido" type="button" aria-controls="pedidos"
+                aria-expanded="false">Hacer pedido por WhatsApp</button>
+      </div>
+    </div>
+
+    <section class="seccion envoltura editorial" id="sobre-nosotros" aria-labelledby="titulo-nosotros">
+      <div class="editorial-texto">
+        <h2 id="titulo-nosotros">Sobre nosotros</h2>
+        <p>Hex es una panadería artesanal de masa madre. Trabajamos con fermentación lenta y formamos nuestras hogazas a mano.</p>
+      </div>
+      <figure class="editorial-foto" data-imagen-opcional hidden>
+        <img src="imagenes/sobre-nosotros.png" alt="Panadería artesanal Hex">
+      </figure>
+    </section>
+
+    <section class="seccion" id="nuestros-ingredientes" aria-labelledby="titulo-ingredientes">
+      <div class="envoltura editorial">
+        <div class="editorial-texto">
+          <h2 id="titulo-ingredientes">Nuestros ingredientes</h2>
+          <p>La harina y el agua son la base de la masa madre. La fermentación lenta ayuda a desarrollar el aroma y el sabor del pan.</p>
+        </div>
+        <figure class="editorial-foto" data-imagen-opcional hidden>
+          <img src="imagenes/ingredientes.jpg" alt="Ingredientes para preparar pan de masa madre">
+        </figure>
+      </div>
+    </section>
+
+    <section class="seccion envoltura" id="productos" aria-labelledby="titulo-productos">
+      <h2 id="titulo-productos">Productos</h2>
+
+      <section class="galeria" id="pan-salado" aria-labelledby="titulo-salado">
+        <h3 id="titulo-salado">Pan salado</h3>
+        <ul class="pista" id="fotos-salado" aria-labelledby="titulo-salado" tabindex="0"></ul>
+        <div class="controles" hidden>
+          <button type="button" aria-controls="fotos-salado" aria-label="Foto anterior de pan salado">←</button>
+          <button type="button" aria-controls="fotos-salado" aria-label="Foto siguiente de pan salado">→</button>
+        </div>
+      </section>
+
+      <section class="galeria" id="pan-dulce" aria-labelledby="titulo-dulce">
+        <h3 id="titulo-dulce">Pan dulce</h3>
+        <ul class="pista" id="fotos-dulce" aria-labelledby="titulo-dulce" tabindex="0"></ul>
+        <div class="controles" hidden>
+          <button type="button" aria-controls="fotos-dulce" aria-label="Foto anterior de pan dulce">←</button>
+          <button type="button" aria-controls="fotos-dulce" aria-label="Foto siguiente de pan dulce">→</button>
+        </div>
+      </section>
+
+      <noscript><p>Activa JavaScript para ver los carruseles.</p></noscript>
+    </section>
+
+    <section class="seccion envoltura" id="visitanos" aria-labelledby="titulo-visita">
+      <h2 id="titulo-visita">Visítanos</h2>
+      <div class="visita-datos">
+        <div>
+          <p><strong>Dirección</strong></p>
+          <address>Av. Arteaga y Salazar 613, Contadero, Cuajimalpa de Morelos, 05500 Ciudad de México, CDMX.</address>
+        </div>
+        <div>
+          <p><strong>Nuestros horarios</strong></p>
+          <ul>
+            <li>Martes a viernes de <time datetime="08:00">8:00</time> a <time datetime="17:00">17:00</time></li>
+            <li>Sábados y domingos de <time datetime="08:00">8:00</time> a <time datetime="15:00">15:00</time></li>
+          </ul>
+        </div>
+      </div>
+
+      <figure class="mapa" data-imagen-opcional hidden>
+        <img src="imagenes/croquis.png" alt="Mapa para llegar a la sucursal de Hex">
+        <figcaption>Cómo llegar a Hex</figcaption>
+      </figure>
+    </section>
+
+    <section class="seccion envoltura" id="contacto" aria-labelledby="titulo-contacto">
+      <h2 id="titulo-contacto">Medios de contacto</h2>
+      <dl class="contactos">
+        <div><dt>WhatsApp</dt><dd id="contacto-whatsapp">5620489756</dd></div>
+        <div><dt>Instagram</dt><dd id="contacto-instagram">panaderiahex</dd></div>
+        <div><dt>Teléfono</dt><dd id="contacto-telefono">5620489756</dd></div>
+      </dl>
+
+      <section class="pedido" id="pedidos" aria-labelledby="titulo-pedido" hidden>
+        <div class="pedido-cabecera">
+          <h3 id="titulo-pedido" tabindex="-1">Haz tu pedido</h3>
+          <button class="boton boton-secundario" id="cerrar-pedido" type="button">Cerrar formulario</button>
+        </div>
+        <p>Completa tus datos. Podrás revisar el mensaje en WhatsApp antes de enviarlo.</p>
+
+        <form class="formulario" id="formulario-pedido">
+          <div class="campo">
+            <label for="nombre">Nombre</label>
+            <input id="nombre" name="nombre" autocomplete="name" maxlength="100" required>
+          </div>
+          <div class="campo">
+            <label for="telefono">Teléfono</label>
+            <input id="telefono" name="telefono" type="tel" autocomplete="tel" maxlength="30" required>
+          </div>
+          <div class="campo">
+            <label for="producto">Producto</label>
+            <input id="producto" name="producto" maxlength="160" required>
+          </div>
+          <div class="campo">
+            <label for="cantidad">Cantidad</label>
+            <input id="cantidad" name="cantidad" type="number" min="1" step="1" required>
+          </div>
+          <div class="campo fila-completa">
+            <label for="recoleccion">Fecha y hora de recolección en sucursal</label>
+            <input id="recoleccion" name="recoleccion" type="datetime-local" required>
+          </div>
+          <div class="fila-completa">
+            <button class="boton" type="submit" disabled>Abrir WhatsApp</button>
+          </div>
+          <p class="aviso fila-completa" id="aviso-pedido" role="status"></p>
+          <div class="pasos-pedido fila-completa" id="pasos-pedido" hidden> </form>
+            <p id="indicacion-pago" hidden>Envía el pedido por WhatsApp y confirma el total con Hex antes de pagar.</p>
+            <div class="acciones">
+              <a id="enlace-whatsapp" target="_blank" rel="noopener">Volver a abrir WhatsApp</a>
+              <div id="paypal-container-JAYE8M4H4WPMN"></div>
+<script>
+  paypal.HostedButtons({
+    hostedButtonId: "JAYE8M4H4WPMN",
+  }).render("#paypal-container-JAYE8M4H4WPMN")
+</script>
+        
+      </section>
+    </section>
+  </main>
+
+  <footer class="pie" id="aviso-privacidad" aria-labelledby="titulo-privacidad">
+    <div class="envoltura">
+      <h2 id="titulo-privacidad">
+        <a href="aviso-privacidad.html" target="_blank" rel="noopener"
+           aria-label="Aviso de privacidad (abre en una pestaña nueva)">Aviso de privacidad</a>
+      </h2>
+      <p>Al abrir WhatsApp, los datos del formulario se incluyen en el mensaje que puedes enviar a Hex para solicitar tu pedido y coordinar su recolección.</p>
+    </div>
+  </footer>
+
+  <dialog class="detalle" id="detalle-producto" aria-labelledby="detalle-titulo">
+    <form method="dialog">
+      <button class="boton" type="submit" autofocus>Cerrar</button>
+    </form>
+    <img id="detalle-imagen" alt="">
+    <h2 id="detalle-titulo"></h2>
+    <p id="detalle-descripcion"></p>
+  </dialog>
+
+  <script>
+    // DATOS DE HEX
+    const hex = {
+      whatsapp: '525620489756', // Código de país y número, solo dígitos.
+      enlacePago: '', // Pega entre las comillas el enlace completo de cobro (https://).
+      instagram: '', // Usuario sin @.
+      telefono: ''   // Número con signo + y código de país.
+    };
+
+    // FOTOS Y PRODUCTOS
+    // Cada fila contiene el título y la descripción de la foto correspondiente.
+    const catalogo = {
+      salado: [
+        ['Hogaza Campesina', 'Hogaza redonda con corteza crujiente y greña marcada.'],
+        ['Hogaza Silvestre', 'Rebanadas de pan con alvéolos irregulares en la miga.'],
+        ['Brioche', 'Pan suave hecho con mantequilla, leche y huevos.'],
+        ['Pan integral', 'Rebanadas de masa madre integral sobre una tabla.'],
+        ['Focaccia de romero', 'Focaccia dorada con romero y aceite de oliva.'],
+        ['Baguettes', 'Baguettes de corteza dorada acomodadas sobre una mesa.'],
+        ['Pan salado artesanal', 'Descripción del producto pendiente.'],
+        ['Formado a mano', 'Manos dando forma a una hogaza sobre una mesa enharinada.'],
+        ['Recién salido del horno', 'Hogazas sobre una pala frente a un horno encendido.']
+      ],
+      dulce: [
+        ['Roles de canela', 'Esponjados y suaves'],
+        ['Conchitas', 'Las clásicas de la casa.'],
+        ['Galletas', 'nuevo savor cada semana.'],
+        
+      ]
+    };
+
+    const menu = document.querySelector('#menu');
+    menu.querySelectorAll('a').forEach(enlace => {
+      enlace.addEventListener('click', () => { menu.open = false; });
+    });
+
+    menu.addEventListener('keydown', evento => {
+      if (evento.key === 'Escape' && menu.open) {
+        menu.open = false;
+        menu.querySelector('summary').focus();
+      }
+    });
+
+    document.querySelectorAll('[data-imagen-opcional]').forEach(figura => {
+      const imagen = figura.querySelector('img');
+      function actualizarImagen() {
+        figura.hidden = imagen.naturalWidth === 0;
+      }
+      imagen.addEventListener('load', actualizarImagen);
+      imagen.addEventListener('error', actualizarImagen);
+      actualizarImagen();
+    });
+
+    const detalle = document.querySelector('#detalle-producto');
+    const detalleImagen = document.querySelector('#detalle-imagen');
+    const detalleTitulo = document.querySelector('#detalle-titulo');
+    const detalleDescripcion = document.querySelector('#detalle-descripcion');
+
+    Object.entries(catalogo).forEach(([categoria, productos]) => {
+      const seccion = document.querySelector('#pan-' + categoria);
+      const pista = seccion.querySelector('.pista');
+      const controles = seccion.querySelector('.controles');
+      const [anterior, siguiente] = controles.querySelectorAll('button');
+
+      productos.forEach(([titulo, descripcion], indice) => {
+        const numero = String(indice + 1).padStart(2, '0');
+        const ruta = 'imagenes/' + categoria + '-' + numero + '.png';
+        const elemento = document.createElement('li');
+        const figura = document.createElement('figure');
+        const boton = document.createElement('button');
+        const imagen = document.createElement('img');
+        const pie = document.createElement('figcaption');
+
+        boton.type = 'button';
+        boton.className = 'foto-producto';
+        boton.setAttribute('aria-label', 'Ver detalles de ' + titulo);
+        imagen.src = ruta;
+        imagen.alt = '';
+        imagen.loading = 'lazy';
+        pie.textContent = titulo;
+
+        boton.append(imagen);
+        figura.append(boton, pie);
+        elemento.append(figura);
+        pista.append(elemento);
+
+        boton.addEventListener('click', () => {
+          detalleImagen.src = ruta;
+          detalleImagen.alt = titulo;
+          detalleTitulo.textContent = titulo;
+          detalleDescripcion.textContent = descripcion;
+          detalle.showModal();
+        });
+      });
+
+      function actualizarFlechas() {
+        const limite = pista.scrollWidth - pista.clientWidth;
+        anterior.setAttribute('aria-disabled', pista.scrollLeft <= 1);
+        siguiente.setAttribute('aria-disabled', pista.scrollLeft >= limite - 1);
+      }
+
+      function mover(direccion) {
+        const boton = direccion < 0 ? anterior : siguiente;
+        if (boton.getAttribute('aria-disabled') === 'true') return;
+
+        const [primera, segunda] = pista.children;
+        const paso = segunda.getBoundingClientRect().left - primera.getBoundingClientRect().left;
+        const posicion = Math.round(pista.scrollLeft / paso);
+        pista.scrollTo({ left: (posicion + direccion) * paso });
+      }
+
+      anterior.addEventListener('click', () => mover(-1));
+      siguiente.addEventListener('click', () => mover(1));
+      pista.addEventListener('scroll', actualizarFlechas, { passive: true });
+      window.addEventListener('resize', actualizarFlechas);
+
+      pista.addEventListener('keydown', evento => {
+        if (evento.target !== pista) return;
+        if (evento.key === 'ArrowLeft' || evento.key === 'ArrowRight') {
+          evento.preventDefault();
+          mover(evento.key === 'ArrowLeft' ? -1 : 1);
+        }
+      });
+
+      controles.hidden = false;
+      actualizarFlechas();
+    });
+
+    function mostrarContacto(id, url, texto) {
+      const enlace = document.createElement('a');
+      enlace.href = url;
+      enlace.textContent = texto;
+      document.getElementById(id).replaceChildren(enlace);
+    }
+
+    const whatsapp = hex.whatsapp.trim();
+    const instagram = hex.instagram.trim();
+    const telefono = hex.telefono.trim().replace(/[\s()-]/g, '');
+    const whatsappValido = /^[1-9][0-9]{6,14}$/.test(whatsapp);
+
+    if (whatsappValido) {
+      mostrarContacto('contacto-whatsapp', 'https://wa.me/' + whatsapp, '+' + whatsapp);
+    }
+    if (/^[A-Za-z0-9._]{1,30}$/.test(instagram)) {
+      mostrarContacto('contacto-instagram', 'https://www.instagram.com/' + instagram + '/', '@' + instagram);
+    }
+    if (/^\+[1-9][0-9]{6,14}$/.test(telefono)) {
+      mostrarContacto('contacto-telefono', 'tel:' + telefono, hex.telefono.trim());
+    }
+
+    const abrirPedido = document.querySelector('#abrir-pedido');
+    const cerrarPedido = document.querySelector('#cerrar-pedido');
+    const pedidos = document.querySelector('#pedidos');
+    const tituloPedido = document.querySelector('#titulo-pedido');
+
+    abrirPedido.addEventListener('click', () => {
+      pedidos.hidden = false;
+      abrirPedido.setAttribute('aria-expanded', 'true');
+      tituloPedido.focus({ preventScroll: true });
+      pedidos.scrollIntoView({ block: 'start' });
+    });
+
+    cerrarPedido.addEventListener('click', () => {
+      pedidos.hidden = true;
+      abrirPedido.setAttribute('aria-expanded', 'false');
+      abrirPedido.focus();
+    });
+
+    const formulario = document.querySelector('#formulario-pedido');
+    const aviso = document.querySelector('#aviso-pedido');
+    const pasosPedido = document.querySelector('#pasos-pedido');
+    const enlaceWhatsApp = document.querySelector('#enlace-whatsapp');
+
+    if (hex.enlacePago.trim()) {
+      try {
+        const destino = new URL(hex.enlacePago.trim());
+        if (destino.protocol === 'https:' && !destino.username && !destino.password) {
+          enlacePago.href = destino.href;
+          enlacePago.hidden = false;
+          document.querySelector('#indicacion-pago').hidden = false;
+        }
+      } catch {
+        // El botón queda oculto hasta que se configure un enlace de cobro válido.
+      }
+    }
+    formulario.querySelector('[type="submit"]').disabled = !whatsappValido;
+
+    if (!whatsappValido) {
+      aviso.textContent = 'El número de WhatsApp de Hex está pendiente de configurar.';
+    }
+
+    formulario.addEventListener('input', evento => {
+      evento.target.setCustomValidity('');
+      pasosPedido.hidden = true;
+      enlaceWhatsApp.removeAttribute('href');
+    });
+
+    formulario.addEventListener('submit', evento => {
+      evento.preventDefault();
+      if (!whatsappValido) return;
+
+      const campos = formulario.elements;
+      for (const campo of [campos.nombre, campos.telefono, campos.producto]) {
+        if (!campo.value.trim()) {
+          campo.setCustomValidity('Completa este campo.');
+          campo.reportValidity();
+          return;
+        }
+      }
+
+      const [fecha, hora] = campos.recoleccion.value.split('T');
+      const [anio, mes, dia] = fecha.split('-');
+      const mensaje = [
+        'Hola, Hex. Quiero hacer un pedido para recoger en sucursal.',
+        '',
+        'Nombre: ' + campos.nombre.value.trim(),
+        'Teléfono: ' + campos.telefono.value.trim(),
+        'Producto: ' + campos.producto.value.trim(),
+        'Cantidad: ' + campos.cantidad.value,
+        'Fecha y hora de recolección: ' + dia + '/' + mes + '/' + anio + ' a las ' + hora
+      ].join('\n');
+
+      const urlWhatsApp = 'https://wa.me/' + whatsapp + '?text=' + encodeURIComponent(mensaje);
+      enlaceWhatsApp.href = urlWhatsApp;
+      pasosPedido.hidden = false;
+      window.open(urlWhatsApp, '_blank', 'noopener');
+    });
+  </script>
+</body>
+</html>
